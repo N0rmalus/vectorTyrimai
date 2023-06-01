@@ -13,6 +13,11 @@
 #include <ctime>
 #include <chrono>
 #include <initializer_list>
+#include <memory>
+#include <stdexcept>
+#include <iterator>
+
+using namespace std;
 
 using std::allocator_traits;
 using std::invalid_argument;

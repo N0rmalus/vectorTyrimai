@@ -138,13 +138,12 @@ void rasomi_rez(string vardas, string pavarde, bool is_naujo2, Vector<Studentas>
     } while(true);  
 }
 void galutinis(Vector<Studentas>& studentai) {
-    for (Studentas& studentas : studentai) {
-        const Vector<int>& nd_rezultatai = studentas.getNdRezultatai();
+    for (Studentas& s : studentai) {
+        const Vector<int>& nd_rezultatai = s.getNdRezultatai();
         int dydis = nd_rezultatai.size();
 
         double vidurkis = 0;
         double mediana = 0;
-
         if (dydis > 0) {
             // Galutinio balo apskaičiavimas su rezultatų vidurkiu
             double sum = accumulate(nd_rezultatai.begin(), nd_rezultatai.end(), 0.0);
@@ -162,11 +161,11 @@ void galutinis(Vector<Studentas>& studentai) {
             }
         }
 
-        double galutinis_med = 0.4 * mediana + 0.6 * studentas.getEgzaminoRezultatas();
-        double galutinis_vid = 0.4 * vidurkis + 0.6 * studentas.getEgzaminoRezultatas();
+        double galutinis_med = 0.4 * mediana + 0.6 * s.getEgzaminoRezultatas();
+        double galutinis_vid = 0.4 * vidurkis + 0.6 * s.getEgzaminoRezultatas();
 
-        studentas.setGalutinisMed(galutinis_med);
-        studentas.setGalutinisVid(galutinis_vid);
+        s.setGalutinisMed(galutinis_med);
+        s.setGalutinisVid(galutinis_vid);
     }
 }
 void isvesti(Vector<Studentas>& studentai) {

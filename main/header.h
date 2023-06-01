@@ -102,6 +102,11 @@ class Vector {
         Vector() { create(); }
         explicit Vector(size_type n, const T& val = T{}) { create(n, val); }
         Vector(const Vector& v) {create(v.begin(), v.end()); }
+        Vector(const std::vector<T>& other) {
+            create(other.begin(), other.end());
+        }
+        ~Vector() { uncreate(); }
+
         Vector& operator=(const Vector& rhs) {
             if(&rhs != this) {
                 uncreate();
@@ -116,9 +121,9 @@ class Vector {
             }
             return *this;
         }
-        ~Vector() { uncreate(); }
 
-        size_type size() const { return limit - data; }
+        size_type size() const { return avail - data; }
+        // size_type capacity() const { return limit - data; }
         T& operator[](size_type i) { return data[i]; }
         const T& operator[](size_type i) const { return data[i]; }
 
@@ -131,7 +136,8 @@ class Vector {
             if(avail == limit)
                 grow();
             unchecked_append(val);
-        } void resize(size_type new_size, const T& val = T{}) {
+        } 
+        void resize(size_type new_size, const T& val = T{}) {
             if(new_size < size()) {
                 iterator new_limit = data + new_size;
                 while(limit != new_limit)
@@ -145,7 +151,8 @@ class Vector {
                     unchecked_append(val);
             }
             limit = data + new_size;
-        } void reserve(size_type new_capacity) {
+        } 
+        void reserve(size_type new_capacity) {
             if(new_capacity > capacity()) {
                 iterator new_data = alloc.allocate(new_capacity);
                 iterator new_avail = uninitialized_copy(data, avail, new_data);
@@ -154,7 +161,8 @@ class Vector {
                 avail = new_avail;
                 limit = data + new_capacity;
             }
-        } void pop_back() {
+        } 
+        void pop_back() {
             if(avail != data)
                 alloc.destroy(--avail);
         }
@@ -251,6 +259,13 @@ class Vector {
         }
         void unchecked_append(const T& val) {
             allocator_traits<allocator<T>>::construct(alloc, avail++, val);
+        }
+
+        template <typename InputIterator>
+        void create(InputIterator first, InputIterator last) {
+            size_type n = std::distance(first, last);
+            data = alloc.allocate(n);
+            limit = avail = std::uninitialized_copy(first, last, data);
         }
 };
 

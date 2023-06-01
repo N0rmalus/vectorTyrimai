@@ -9,7 +9,6 @@ int main() {
         auto sStdVector = std::chrono::high_resolution_clock::now();
         vector<int> v1;
 
-        v1.resize(sz);
         for (int i = 1; i <= sz; ++i)
             v1.push_back(i);
         auto eStdVector = std::chrono::high_resolution_clock::now();
@@ -21,7 +20,6 @@ int main() {
         auto sVector = std::chrono::high_resolution_clock::now();
         Vector<int> v2;
 
-        v2.resize(sz);
         for (int i = 1; i <= sz; ++i)
             v2.push_back(i);
         auto eVector = std::chrono::high_resolution_clock::now();

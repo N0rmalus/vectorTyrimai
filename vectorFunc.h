@@ -15,7 +15,6 @@ using std::endl;
 using std::cin;
 using std::max;
 
-
 template <class T>
 class Vector {
     public:
@@ -27,8 +26,6 @@ class Vector {
         Vector() { create(); }
         explicit Vector(size_type n, const T& val = T{}) { create(n, val); }
         Vector(const Vector& v) {create(v.begin(), v.end()); }
-        ~Vector() { uncreate(); }
-
         Vector& operator=(const Vector& rhs) {
             if(&rhs != this) {
                 uncreate();
@@ -43,9 +40,9 @@ class Vector {
             }
             return *this;
         }
+        ~Vector() { uncreate(); }
 
-        size_type size() const { return avail - data; }
-        // size_type capacity() const { return limit - data; }
+        size_type size() const { return limit - data; }
         T& operator[](size_type i) { return data[i]; }
         const T& operator[](size_type i) const { return data[i]; }
 
